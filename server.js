@@ -16,15 +16,8 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 
-app.use(express.static(path.join(__dirname, "./client/build")));
-app.get("*", function (_, res) {
-  res.sendFile(
-    path.join(__dirname, "./client/build/index.html"),
-    function (err) {
-      res.status(500).send(err);
-    }
-  );
-});
+
+
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
@@ -77,6 +70,15 @@ app.use("/api/users", usersRoute);
 app.use("/api/posts", postsRoute);
 app.use("/api/categories", categoryRoute);
 
+app.use(express.static(path.join(__dirname, "./client/build")));
+app.get("*", function (req, res) {
+    res.sendFile(
+      path.join(__dirname, "./client/build/index.html"),
+      function (err) {
+        res.status(500).send(err);
+      }
+    );
+  });
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, ()=>{
     console.log("Backend is running");
