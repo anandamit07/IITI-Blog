@@ -35,13 +35,16 @@ export default function Settings() {
            // console.log(updatedUser);
             try{
               const res = await axios.put("/api/users/"+user._id, updatedUser);
+              setLoading(false);
               setSuccess(true);
               dispatch({type:"UPDATE_SUCCESS", payload:res.data});
                //console.log(res);
-               setLoading(false);
+               
             }
             catch(err){
-
+              setLoading(false);
+              setError(true);
+              dispatch({type:"UPDATE_FAILURE"});
             }
           };
           reader.onerror = () => {
@@ -52,10 +55,12 @@ export default function Settings() {
         else{
           try{
             const res = await axios.put("/api/users/"+user._id, updatedUser);
+            setLoading(false);
             setSuccess(true);
             dispatch({type:"UPDATE_SUCCESS", payload:res.data});
         }
           catch(err){
+            setLoading(false);
             setError(true);
             dispatch({type:"UPDATE_FAILURE"});
           }
