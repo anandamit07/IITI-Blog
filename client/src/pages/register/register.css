@@ -4,12 +4,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), url('https://images.pexels.com/photos/459335/pexels-photo-459335.jpeg?auto=compress&cs=tinysrgb&w=600');
-    background-size: cover;
+    /* background: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), url('https://images.pexels.com/photos/459335/pexels-photo-459335.jpeg?auto=compress&cs=tinysrgb&w=600'); */
+    /* background-size: cover; */
+    background-color: #212121;
 }
 
 .registerTitle{
     font-size: 50px;
+    color: #FF4545;
 }
 
 .registerForm{
@@ -42,7 +44,7 @@
     position: absolute;
     top: 60px;
     right: 20px;
-    background-color: lightcoral;
+    background-color: #FF4545;
     cursor: pointer;
     border: none;
     padding: 10px;
