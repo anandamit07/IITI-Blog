@@ -1,0 +1,136 @@
+.singlePost{
+    flex: 9;
+    background-color: #444;
+}
+
+.singlePostImg{
+    width: 100vw;
+    height: 65vh;
+    border-radius: 7px;
+    object-fit: contain;
+}
+
+.singlePostWrapper{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin-left: 20vw;
+    margin-right: 20vw;
+    
+}
+
+.singlePostTitle{
+    text-align: center;
+    margin: 10px;
+    font-family: 'Lora', serif;
+    font-size: 28px;
+    color: wheat;
+}
+
+.singlePostTitleInput{
+    margin: 10px;
+    font-family: 'Lora', serif;
+    font-size: 28px;
+    text-align: center;
+    border: none;
+    background-color: #444;
+    color: wheat;
+}
+
+.singlePostTitleInput{
+    outline: none;
+}
+
+.singlePostEdit{
+    float: right;
+    font-size: 16px;
+}
+
+.singlePostIcon{
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.singlePostIcon:first-child{
+    color: teal;
+}
+
+.singlePostIcon:last-child{
+    color: tomato;
+}
+
+.singlePostInfo{
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    color: wheat;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.singlePostDesc{
+    color: whitesmoke;
+    font-size: 18px;
+    line-height: 25px;
+}
+
+.singlePostDesc::first-letter{
+    margin-left: 20px;
+    font-size: 30px;
+    font-weight: 600;
+    color: wheat;
+}
+
+
+.singlePostDescriptionInput{
+    color: whitesmoke;
+    font-size: 18px;
+    line-height: 25px;
+    width: 100%;
+    height: 80vh;
+    background-color: #444;
+}
+
+.singlePostDescriptionInput:focus{
+    outline: none;
+}
+
+.singlePostButton{
+    width: 100px;
+    border: none;
+    background-color: teal;
+    padding: 5px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-top: 20px;
+}
+
+.like-button {
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    background-color: #ccc;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .like-button i {
+    margin-right: 0.5rem;
+  }
+  
+  .like-button.liked {
+    background-color: #0077cc;
+    color: #fff;
+  }
+  .authorImg{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    margin-right: 8px;
+}
