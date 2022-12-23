@@ -41,25 +41,19 @@ app.post('/api/uploadimg', async (req, res) => {
 app.use("/images", express.static(path.join(__dirname,"/images")));
 
 const connectDB = async () => {
-    try {
-      const conn = await mongoose.connect(process.env.MONGO_URL);
-      console.log(`MongoDB Connected: ${conn.connection.host}`);
-    } catch (error) {
-      console.log(error);
-      process.exit(1);
+    mongoose.connect(process.env.MONGO_URL, {
+   useNewUrlParser: true,
+   useUnifiedTopology: true,
+},(err) =>{
+    if(err){
+        console.log("err");
     }
+    else{
+        console.log("success");
+    }
+})
   }
-// mongoose.connect(process.env.MONGO_URL, {
-//    useNewUrlParser: true,
-//    useUnifiedTopology: true,
-// },(err) =>{
-//     if(err){
-//         console.log("err");
-//     }
-//     else{
-//         console.log("success");
-//     }
-// })
+
 
 const storage = multer.diskStorage({
     destination:(req,file,cb) => {
