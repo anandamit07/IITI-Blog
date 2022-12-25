@@ -9,6 +9,7 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const [success, setsuccess] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(false);
@@ -18,7 +19,8 @@ export default function Register() {
         email,
         password,
       });
-      res.data && window.location.replace("/login")
+      //res.data && window.location.replace("/login")
+      setsuccess(true);
     } catch (error) {
       setError(true);
     }
@@ -46,6 +48,7 @@ export default function Register() {
         </form>
         <button className='registerLoginButton'><Link className='link' to={'/login'}> Login</Link></button>
       {error?<span style={{color:"red", marginTop:"10px"}}>Something went wrong <br/> Username should be unique <br/> E-mail should be unique</span>:<></>}
+      {success?<span style={{color:"green", marginTop:"10px"}}>Verification E-mail has been sent</span>:<></>}
     </div>
   )
 }

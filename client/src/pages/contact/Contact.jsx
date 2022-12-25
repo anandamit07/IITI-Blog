@@ -19,7 +19,7 @@ export default function Contact() {
             >
                     <HStack spacing='24px'>
                     <i class="fa-solid fa-envelope fa-lg"></i>
-                    <Text>iitiblog@gmail.com</Text>
+                    <Text>iitiblogs@gmail.com</Text>
                     </HStack>
                     <HStack spacing='24px'>
                     <i class="fa-solid fa-mobile fa-lg"></i>

@@ -6,9 +6,12 @@ import { Link } from 'react-router-dom'
 import { Context } from '../../context/Context';
 import './login.css'
 import img1 from '../../assets/login.jpg'
+import { useState } from 'react';
 export default function Login() {
   const userRef = useRef();
   const passwordRef = useRef();
+  const [error, setError] = useState(false);
+  const [errMess, setErrMess] = useState('Error');
   const {dispatch, isFetching} = useContext(Context);
 
   const handleSubmit = async (e)=>{
@@ -23,6 +26,8 @@ export default function Login() {
       dispatch({type: "LOGIN_SUCCESS", payload: res.data});
     }
     catch(err){
+      setError(true);
+      setErrMess(err.response.data);
       dispatch({type: "LOGIN_FAILURE"});
     }
   }
@@ -35,8 +40,9 @@ export default function Login() {
             <label style={{color:'wheat'}}>Password</label>
             <input type="password" className='loginInput' placeholder='Enter your password' ref={passwordRef} />
             <button className='loginButton' type='submit' disabled={isFetching}>Login</button>
+            {error?<span style={{color:"red", marginTop:"10px"}}>{errMess}</span>:<></>}
         </form>
-        <button className='loginRegisterButton'><Link className='link' to={'/register'}> Register</Link></button>
+        <button className='loginRegisterButton'><Link className='link' to={'/register'}>Register</Link></button>
     </div>
   )
 }
