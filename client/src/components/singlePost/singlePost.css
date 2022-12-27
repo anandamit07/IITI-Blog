@@ -116,6 +116,9 @@
     background-color: #ccc;
     color: #333;
     cursor: pointer;
+    width: 30vw;
+    margin-left: 12vw;
+    margin-top: 1vw;
   }
   
   .like-button i {
@@ -133,4 +136,27 @@
     object-fit: cover;
     cursor: pointer;
     margin-right: 8px;
+}
+
+.commentsGroup{
+    padding-top: 2vw;
+}
+.commentInput{
+    width: 85%;
+    height: 10vh;
+    color: whitesmoke;
+    font-size: 18px;
+    line-height: 25px;
+    background-color: #444;
+    overflow: auto;
+    border-color: #222;
+    border-width: 2px;
+    border-radius: 7px;
+    padding: 5px;
+}
+.commentInput::-webkit-scrollbar{
+    display: none;
+}
+.commentInput:focus{
+    outline: none;
 }

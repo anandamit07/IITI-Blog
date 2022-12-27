@@ -12,7 +12,7 @@ export default function TopBar() {
   return (
     <div className='top'>
         <div className="topLeft">
-            <span className='topIcon' style={{color:'#FF4545'}}>IITI BLOGS</span>
+            <Link className='link' to={'/'}><span className='topIcon' style={{color:'#FF4545'}}>IITI BLOGS</span></Link>
             <i className="topIcon fa-brands fa-square-facebook fa-lg"></i>
             <i className="topIcon fa-brands fa-square-twitter fa-lg"></i>
             <a href='https://www.instagram.com/amit.anand.07/' target='_blank'><i className="topIcon fa-brands fa-square-instagram fa-lg"></i></a>

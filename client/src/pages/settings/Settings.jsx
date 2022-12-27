@@ -21,7 +21,9 @@ export default function Settings() {
         dispatch({type:"UPDATE_START"});
         const updatedUser = {
           userId: user._id,
-          username,email,password,
+          username: user.username,
+          email: user.email,
+          password,
         };
         setLoading(true);
         if(file){
@@ -81,9 +83,9 @@ export default function Settings() {
                     <input type="file" id='fileInput' style={{display:"none"}} onChange={(e)=>setFile(e.target.files[0])} />
                 </div>
                 <label>Username</label>
-                <input type="text" placeholder={user.username} onChange={(e)=>setUsername(e.target.value)} />
+                <input type="text" placeholder={user.username} readOnly />
                 <label>Email</label>
-                <input type="text" placeholder={user.email} onChange={(e)=>setEmail(e.target.value)}/>
+                <input type="text" placeholder={user.email} readOnly/>
                 <label>Password</label>
                 <input type="password" onChange={(e)=>setPassword(e.target.value)}/>
                 <button className='settingsSubmit' type='submit'>Update</button>

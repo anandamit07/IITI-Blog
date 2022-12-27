@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/react';
+import { Button, HStack, Input, InputGroup, InputRightElement, Text, VStack } from '@chakra-ui/react';
 import axios from 'axios';
 import React from 'react'
 import { useContext } from 'react';
@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom'
 import { Context } from '../../context/Context';
+import Comments from '../comments/Comments';
 import './singlePost.css'
 
 export default function SinglePost() {
@@ -16,7 +17,9 @@ export default function SinglePost() {
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
     const [liked, setLiked] = useState(false);
+    const [seed, setSeed] = useState(false);
     const [usersLiked, setUsersLiked] = useState([]);
+    const [comm, setComm] = useState("");
     const [updateMode, setUpdateMode] = useState(false);
     const PF = "http://localhost:5000/images/";
 
@@ -27,7 +30,10 @@ export default function SinglePost() {
             setTitle(res.data.title);
             setDesc(res.data.desc);
             setUsersLiked(res.data.liked);
-            setLiked(res.data.liked.includes(user.username));
+            if(user){
+                setLiked(res.data.liked.includes(user.username));
+            }
+            setSeed(!seed);
         }
 
         getPost();
@@ -62,6 +68,22 @@ export default function SinglePost() {
 
         }
     }
+    const handleComm = async() =>{
+        if(!user){
+            window.location.replace("/login");
+        }
+        try{
+            await axios.post('/api/comments',{
+                postId: post._id,
+                user:user.username,
+                desc: comm,    
+            });
+            setComm("");
+            setSeed(!seed);
+        }catch(err){
+            
+        }
+    }
   return (
     <div className="singlePost">
         <div className="singlePostWrapper">
@@ -84,7 +106,7 @@ export default function SinglePost() {
             }
             <div className="singlePostInfo">
                 <span className='singlePostAuthor'>Author: <Link to={`/?user=${post.username}`} className='link'><b>{post.username}</b></Link></span>
-                <span>{`Likes: ${usersLiked.length}`} <i class="fa-solid fa-heart" style={{color:'#FF4545'}}/></span>
+                <span>{`Likes: ${usersLiked.length}`} <i className="fa-solid fa-heart" style={{color:'#FF4545'}}/></span>
                 <span className='singlePostDate'>{new Date(post.createdAt).toDateString().substring(4)}</span>
             </div>
             {
@@ -102,6 +124,14 @@ export default function SinglePost() {
                 <i className="fa-solid fa-heart" style={{color:'#FF4545'}}></i> Like
               </button>:<></>
             }
+            <div className='commentsGroup'>
+                
+                <HStack>
+                    <textarea className='commentInput' value={comm} onChange={(e)=>setComm(e.target.value)}/>
+                    <Button onClick={handleComm}>Comment</Button>
+                </HStack>
+                <Comments post={post} key={seed}/>
+            </div>
             
             </div>
     </div>
