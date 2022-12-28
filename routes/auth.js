@@ -9,9 +9,8 @@ const sendVerifyMail = async(name, email, user_id)=>{
     try{
         const transporter = nodemailer.createTransport({
             host:'smtp.gmail.com',
-            port:587,
-            secure:false,
-            requireTLS:true,
+            port:465,
+            secure:true,
             auth:{
                 user: 'iitiblogs@gmail.com',
                 pass: process.env.SMTP_PASS,
@@ -48,7 +47,7 @@ router.post("/register", async(req, res) => {
         });
         const user = await newUser.save();
         try{
-            await sendVerifyMail(user.username, req.body.email, user._id);
+            await sendVerifyMail(user.username, user.email, user._id);
             res.status(200).json(user);
         }
         catch(err){
