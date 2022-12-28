@@ -2,7 +2,8 @@ const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
-
+const dotenv = require("dotenv");
+dotenv.config();
 //for send mail
 const sendVerifyMail = async(name, email, user_id)=>{
     try{
@@ -13,14 +14,14 @@ const sendVerifyMail = async(name, email, user_id)=>{
             requireTLS:true,
             auth:{
                 user: 'iitiblogs@gmail.com',
-                pass: 'dgamhfpqsmasbmth'
+                pass: process.env.SMTP_PASS,
             }
         })
         const mailOptions = {
             from: 'iitiblogs@gmail.com',
             to: email,
             subject: 'Verification Mail',
-            html: '<p>Hii' + name + ', please click here to <a href="https://iiti-blogs.cyclic.app/api/auth/verify?id='+user_id+'"> Verify </a> your mail.</p>'
+            html: '<p>Hii ' + name + ', please click here to <a href="https://iiti-blogs.cyclic.app/api/auth/verify?id='+user_id+'"> Verify </a> your mail.</p>'
         }
         transporter.sendMail(mailOptions, function(error,info){
             if(error){
@@ -32,7 +33,7 @@ const sendVerifyMail = async(name, email, user_id)=>{
         })
 
     }catch(error){
-        console.log(error.message);
+        console.log(error.message)
     }
 }
 //Register
@@ -46,8 +47,14 @@ router.post("/register", async(req, res) => {
             password: hashedPass,
         });
         const user = await newUser.save();
-        await sendVerifyMail(req.body.name, req.body.email, user._id);
-        res.status(200).json(user)
+        try{
+            await sendVerifyMail(user.username, req.body.email, user._id);
+            res.status(200).json(user);
+        }
+        catch(err){
+            await User.findByIdAndDelete(user._id);
+            res.status(400).json("Error while sending verification mail");
+        }
     } catch(err){
         res.status(500).json(err);
     }
