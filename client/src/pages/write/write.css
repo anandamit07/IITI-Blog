@@ -1,5 +1,6 @@
 .write{
-    padding-top: 50px;
+    padding-top: 30px;
+    padding-bottom: 50px;
     background-color: #444;
 }
 
@@ -71,7 +72,7 @@
     align-items: center;
     justify-content: center;
 }
-.writeCategoryLable{
-    padding: 1rem;
-    color: white;
+
+.category-select{
+    padding-right: 15px;
 }

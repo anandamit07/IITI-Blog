@@ -3,19 +3,31 @@ import axios from 'axios';
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './sidebar.css'
 
 export default function Sidebar() {
     const [cats, setCats] = useState([]);
-
+    const [subcats, setSubcats] = useState(null);
+    const location = useLocation();
     useEffect(()=>{
+        setSubcats(null);
         const getCats = async ()=>{
             const res = await axios.get("/api/categories");
             setCats(res.data);
         }
+        const getSubCats = async() =>{
+          const query = new URLSearchParams(location.search);
+          const cat = query.get('cat');
+          if(cat){
+            const scats= await axios.get(`/api/categories/?name=${cat}`);
+            setSubcats(scats.data[0].subcategories.sort());
+          }
+        }
         getCats();
-    },[]);
+        getSubCats();
+    },[location]);
+
   return (
     <div className="sidebar">
         {/* <div className="sidebarItem">
@@ -54,7 +66,7 @@ export default function Sidebar() {
                 <Link to={'/'}>ALL CATEGORIES</Link>
               </Button>
             
-            {
+                {
                     cats.map((c)=>(
                         <Button
                 variant={'ghost'}
@@ -70,6 +82,32 @@ export default function Sidebar() {
                     ))
                 }
         </VStack>
+        {
+          subcats?<VStack alignItems={'flex-start'} mt={10} maxH={'70vh'} overflowY={'auto'} className='subcats'>
+            <Button
+                variant={'solid'}
+                colorScheme='teal'
+              >
+                SUB-CATEGORIES
+              </Button>
+              {
+                    subcats.map((c)=>(
+                        <Button
+                variant={'ghost'}
+                colorScheme={'teal'} marginTop={'10px'}
+                value={c}
+                _active={{
+                  bg: '#FF4545',
+                  transform: 'scale(0.98)',
+                  borderColor: '#bec3c9',
+                }}
+              >
+                <Link to={`/${location.search.split("&", 1).join("&")}&subcat=${c}`} >{c.toUpperCase()}</Link>
+              </Button>
+                    ))
+                }
+          </VStack>:<></>
+        }
     </div>
   )
 }

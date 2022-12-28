@@ -56,6 +56,11 @@ export default function Post({post}) {
                   <span className="postCat">{c+', '}</span>
                 ))
               }
+              {
+                post.subcategories.map((c)=>(
+                  <span className='postCat'>{c}</span>
+                ))
+              }
       </Text>
       <HStack>
       <Text className='postDate' noOfLines={1}>{post.liked.length} <i class="fa-solid fa-heart" style={{color:'#FF4545'}}></i></Text>

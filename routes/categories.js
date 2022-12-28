@@ -11,12 +11,31 @@ router.post("/", async(req, res) => {
     }
 });
 
+
 router.get("/", async(req, res) => {
-    try {
-        const cats = await Category.find();
-        res.status(200).json(cats);
-    } catch (error) {
-        res.status(500).json(error);
+    if(req.query.id){
+        try {
+            const cat = await Category.findById(req.query.id);
+            res.status(200).json(cat);
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+    else if(req.query.name){
+        try {
+            const cat = await Category.find({name:req.query.name});
+            res.status(200).json(cat);
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+    else{
+        try {
+            const cats = await Category.find();
+            res.status(200).json(cats);
+        } catch (error) {
+            res.status(500).json(error);
+        }
     }
 })
 

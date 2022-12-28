@@ -61,14 +61,23 @@ router.get("/", async(req,res)=>{
     const username = req.query.user;
     const catName = req.query.cat;
     const page = req.query.page;
+    const subcatName = req.query.subcat;
     try{
         let posts;
         if(username){
             posts = await Post.find({username}).skip(15*page).limit(15);
         } else if(catName) {
-            posts = await Post.find({categories:{
-                $in:[catName]
-            }}).skip(15*page).limit(15);
+            if(subcatName){
+                posts = await Post.find({categories:{
+                    $in:[catName]
+                }}).find({subcategories:{
+                    $in:[subcatName]
+                }}).skip(15*page).limit(15);
+            }else{
+                posts = await Post.find({categories:{
+                    $in:[catName]
+                }}).skip(15*page).limit(15);
+            }
         } 
         else if(page){
             posts = await Post.find().skip(15*page).limit(15);
@@ -103,10 +112,7 @@ router.put("/like/:id", async(req, res) => {
 // router.post("/upload", async(req, res) => {
 //     console.log(req.body);
 //     try{
-//         cloudinary.config({
-//         cloud_name: 'dfdt58tt4',
-//         api_key: '111276138969794',
-//         api_secret: 'GnEIVMB5wE0vI0_AHZz_m6sTak8'
+//    
 //         });
 //     }catch(err){
 //         console.log("not connected");

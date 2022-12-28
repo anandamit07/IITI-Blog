@@ -6,14 +6,19 @@ import { useState } from 'react'
 import { Context } from '../../context/Context';
 import './write.css'
 import Loader from '../../components/Loader/Loader';
-import { Container } from '@chakra-ui/react';
+import { color, Container, Select } from '@chakra-ui/react';
 
 export default function Write() {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
-  const [cats, setCats] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
+  const [cats, setCats] = useState([]);
+  const [subcats, setSubcats] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [subcategory, setSubcategory] = useState(null);
+  
   const [loading, setLoading] = useState(false);
   const {user} = useContext(Context);
   useEffect(()=>{
@@ -23,39 +28,45 @@ export default function Write() {
     }
     fetchCats();
   },[])
-  const handleChange = (e)=>{
-    if(!categories.includes(e.target.id)){
-      categories.push(e.target.id);
+  const handleCategoryChange = async (e)=>{
+    if(e.target.value === ""){
+      setCategory(null);
+      setSubcats(null);
     }
     else{
-      categories.splice(categories.indexOf(e.target.id),1);
+      const catId = e.target.value;
+      const res = await axios.get(`/api/categories/?id=${catId}`);
+      setCategory(res.data);
+      setSubcats(res.data.subcategories.sort());
+    }
+  }
+  const handleSubCategoryChange = async (e)=>{
+    if(e.target.value === ""){
+      setSubcategory(null);
+    }
+    else{
+      setSubcategory(e.target.value);
     }
   }
   
   const handleSubmit = async (e) =>{
     e.preventDefault();
     setLoading(true);
+    if(category){
+      categories.push(category.name);
+      if(subcategory){
+        subcategories.push(subcategory);
+      }
+    }
     const newPost = {
       username: user.username,
       title,
       desc,
       categories,
+      subcategories,
     };
+
     if(file){
-
-      
-      // Create a FormData object to send the image to the server
-      // Create a FormData object to send the image to the server
-      // const data = new FormData();
-      // data.append('file', file);
-
-      // Send a POST request to the server with the image data
-      // axios.post('/api/uploadimg', data).then((response) => {
-      //   console.log(response.data.url);
-      // }).catch((error) => {
-      //   console.error(error);
-      // });
-      
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = async () => {
@@ -77,9 +88,6 @@ export default function Write() {
       reader.onerror = () => {
           console.error('AHHHHHHHH!!');
       };
-      
-      
-      
     }
     else{
       const res = await axios.post("/api/posts", newPost);
@@ -105,19 +113,24 @@ export default function Write() {
             <div className="writeFormGroup">
                 <textarea placeholder='Tell your Story....' type="text" className='writeInput writeText' onChange={(e)=>setDesc(e.target.value)}></textarea>
             </div>
-            <span style={{display:'flex',alignItem:'center',justifyContent:'center', color:'wheat',fontSize:'20px'}}>Categories</span>
+            <span style={{display:'flex',alignItem:'center',justifyContent:'center', color:'wheat',fontSize:'20px'}}>ADD CATEGORIES</span>
+            
             <div className="writeFormCategory">
-      {cats.map((c) => (<>
-        <input
-          type="checkbox"
-          id={c.name}
-          key={c._id}
-          onChange={handleChange}
-        />
-        <label className='writeCategoryLable' htmlFor={c.name}>{c.name}</label>
-        </>
-      ))}
-    </div>
+              <Select mx={10} my={5} onChange={handleCategoryChange} w={'15vw'}>
+                <option value="" style={{backgroundColor:'#666',color:'whitesmoke'}}>ALL CATEGORIES</option>
+                {cats.map((category) => (
+                  <option key={category._id} value={category._id} style={{backgroundColor:'#666',color:'whitesmoke'}}>{category.name.toUpperCase()}</option>
+                ))}
+              </Select>
+              {category && (
+                <Select mx={10} my={5} w={'15vw'} onChange={handleSubCategoryChange}>
+                <option value="" style={{backgroundColor:'#666',color:'whitesmoke'}}>SUB-CATEGORIES</option>
+                {subcats.map((category) => (
+                  <option value={category} style={{backgroundColor:'#666',color:'whitesmoke'}}>{category.toUpperCase()}</option>
+                ))}
+              </Select>)
+              }
+            </div>
             <button className='writeSubmit' onClick={handleSubmit}>Publish</button>
         </form>
     </div>
