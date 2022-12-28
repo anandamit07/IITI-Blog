@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Context } from '../../context/Context';
 import './topbar.css'
-
+import logo from '../../assets/logo.png'
 export default function TopBar() {
     const {user, dispatch} = useContext(Context);
     const PF = "http://localhost:5000/images/"
@@ -12,6 +12,7 @@ export default function TopBar() {
   return (
     <div className='top'>
         <div className="topLeft">
+            <img className='topImg' src={logo}></img>
             <Link className='link' to={'/'}><span className='topIcon' style={{color:'#FF4545'}}>IITI BLOGS</span></Link>
             <i className="topIcon fa-brands fa-square-facebook fa-lg"></i>
             <i className="topIcon fa-brands fa-square-twitter fa-lg"></i>

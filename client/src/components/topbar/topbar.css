@@ -35,6 +35,7 @@
     object-fit: cover;
     cursor: pointer;
     margin-right: 8px;
+    background-color: white;
 }
 
 .topList{

@@ -60,31 +60,29 @@ router.get("/:id", async(req,res)=>{
 router.get("/", async(req,res)=>{
     const username = req.query.user;
     const catName = req.query.cat;
-    const page = req.query.page;
     const subcatName = req.query.subcat;
     try{
         let posts;
         if(username){
-            posts = await Post.find({username}).skip(15*page).limit(15);
+            posts = await Post.find({username});
         } else if(catName) {
             if(subcatName){
                 posts = await Post.find({categories:{
                     $in:[catName]
                 }}).find({subcategories:{
                     $in:[subcatName]
-                }}).skip(15*page).limit(15);
+                }});
             }else{
                 posts = await Post.find({categories:{
                     $in:[catName]
-                }}).skip(15*page).limit(15);
+                }});
             }
         } 
-        else if(page){
-            posts = await Post.find().skip(15*page).limit(15);
-        }else{
+        else{
             posts = await Post.find();
         }
-        res.status(200).json(posts);
+        const sortedPosts = posts.sort((a, b) => b.liked.length - a.liked.length);
+        res.status(200).json(sortedPosts);
     }catch(err){
         res.status(500).json(err);
     }

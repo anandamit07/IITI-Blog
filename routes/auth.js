@@ -20,7 +20,7 @@ const sendVerifyMail = async(name, email, user_id)=>{
             from: 'iitiblogs@gmail.com',
             to: email,
             subject: 'Verification Mail',
-            html: '<p>Hii' + name + ', please click here to <a href="http://localhost:5000/api/auth/verify?id='+user_id+'"> Verify </a> your mail.</p>'
+            html: '<p>Hii' + name + ', please click here to <a href="https://iiti-blogs.cyclic.app/api/auth/verify?id='+user_id+'"> Verify </a> your mail.</p>'
         }
         transporter.sendMail(mailOptions, function(error,info){
             if(error){
