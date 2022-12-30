@@ -12,6 +12,9 @@ const sendVerifyMail = async(name, email, user_id)=>{
             port:587,
             secure:false,
             requireTLS:true,
+            tls: {
+                rejectUnauthorized: false
+            },
             auth:{
                 user: 'iitiblogs@gmail.com',
                 pass: process.env.SMTP_PASS,
