@@ -40,7 +40,7 @@ export default function Post({post}) {
       }}
     >
       <Image
-        src={post.photo?post.photo:"https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=600"}
+        src={post.photo?post.photo:"https://images.pexels.com/photos/6469/red-hands-woman-creative.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
         w={"50"}
         h={"40"}
         objectFit={"contain"}
@@ -53,12 +53,12 @@ export default function Post({post}) {
       <Text noOfLines={1} align={'center'}>
               {
                 post.categories.map((c)=>(
-                  <span className="postCat">{c+', '}</span>
+                  <span className="postCat">{c.charAt(0).toUpperCase() + c.slice(1)}</span>
                 ))
               }
               {
                 post.subcategories.map((c)=>(
-                  <span className='postCat'>{c}</span>
+                  <span className='postCat'>{c.charAt(0).toUpperCase() + c.slice(1)}</span>
                 ))
               }
       </Text>

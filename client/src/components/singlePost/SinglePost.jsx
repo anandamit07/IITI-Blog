@@ -13,6 +13,7 @@ export default function SinglePost() {
     const location = useLocation();
     const path = location.pathname.split('/')[2];
     const [post, setPost] = useState([]);
+    const [author, setAuthor] = useState([]);
     const {user} = useContext(Context);
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
@@ -33,6 +34,8 @@ export default function SinglePost() {
             if(user){
                 setLiked(res.data.liked.includes(user.username));
             }
+            const athr = await axios.get(`/api/users/?username=${res.data.username}`);
+            setAuthor(athr.data[0]);
             setSeed(!seed);
         }
 
@@ -89,7 +92,7 @@ export default function SinglePost() {
         <div className="singlePostWrapper">
             {
                 post.photo?<img className='singlePostImg' src={post.photo} alt="" />:
-                <img className='singlePostImg' src="https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" />
+                <img className='singlePostImg' src="https://images.pexels.com/photos/6469/red-hands-woman-creative.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
             }
             {
                 updateMode? <input type="text" value={title} className="singlePostTitleInput" autoFocus onChange={(e)=>setTitle(e.target.value)}/>:(
@@ -105,7 +108,7 @@ export default function SinglePost() {
                 )
             }
             <div className="singlePostInfo">
-                <span className='singlePostAuthor'>Author: <Link to={`/?user=${post.username}`} className='link'><b>{post.username}</b></Link></span>
+                <span className='singlePostAuthor'><img className='topImg' src={author.profilePic?author.profilePic:"https://wallpaperaccess.com/full/4595683.jpg"}/>Author: <Link to={`/?user=${post.username}`} className='link'><b>{post.username}</b></Link></span>
                 <span>{`Likes: ${usersLiked.length}`} <i className="fa-solid fa-heart" style={{color:'#FF4545'}}/></span>
                 <span className='singlePostDate'>{new Date(post.createdAt).toDateString().substring(4)}</span>
             </div>

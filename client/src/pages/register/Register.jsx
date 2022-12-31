@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import {Input, Button} from '@chakra-ui/react'
 import './register.css'
 
 export default function Register() {
@@ -31,20 +32,23 @@ export default function Register() {
         <span className="registerTitle">Register</span>
         <form className="registerForm" onSubmit={handleSubmit}>
           <label style={{color:'wheat'}}>Username</label>
-            <input type="text" 
+            <Input type="text" 
             className='registerInput' 
             placeholder='Enter your username'
+            required
             onChange={e=>setUsername(e.target.value)}/>
             <label style={{color:'wheat'}}>Email</label>
-            <input type="text" 
+            <Input type="email" 
             className='registerInput' 
             placeholder='Enter your email'
+            required
             onChange={e=>setEmail(e.target.value)}/>
             <label style={{color:'wheat'}}>Password</label>
-            <input type="password" className='registerInput' 
+            <Input type="password" className='registerInput' 
             placeholder='Enter your password'
+            required
             onChange={e=>setPassword(e.target.value)} />
-            <button className='registerButton'>Register</button>
+            <Button variant={'teal'} className='registerButton'>Register</Button>
         </form>
         <button className='registerLoginButton'><Link className='link' to={'/login'}> Login</Link></button>
       {error?<span style={{color:"red", marginTop:"10px"}}>Something went wrong <br/> Username should be unique <br/> E-mail should be unique</span>:<></>}

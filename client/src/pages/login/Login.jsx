@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { Context } from '../../context/Context';
 import './login.css'
 import img1 from '../../assets/login.jpg'
+import {Input, Button} from '@chakra-ui/react'
 import { useState } from 'react';
 export default function Login() {
   const userRef = useRef();
@@ -36,13 +37,13 @@ export default function Login() {
         <span className="loginTitle">LOGIN</span>
         <form className="loginForm" onSubmit={handleSubmit}>
             <label style={{color:'wheat'}}>Username</label>
-            <input type="text" className='loginInput' placeholder='Enter your username' ref={userRef}/>
+            <Input type="text" className='loginInput' placeholder='Enter your username' required ref={userRef}/>
             <label style={{color:'wheat'}}>Password</label>
-            <input type="password" className='loginInput' placeholder='Enter your password' ref={passwordRef} />
+            <Input type="password" className='loginInput' placeholder='Enter your password' required ref={passwordRef} />
             <button className='loginButton' type='submit' disabled={isFetching}>Login</button>
             {error?<span style={{color:"red", marginTop:"10px"}}>{errMess}</span>:<></>}
         </form>
-        <button className='loginRegisterButton'><Link className='link' to={'/register'}>Register</Link></button>
+        <Button variant={'red.500'} className='loginRegisterButton'><Link className='link' to={'/register'}>Register</Link></Button>
     </div>
   )
 }

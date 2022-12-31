@@ -86,7 +86,7 @@ export default function Sidebar() {
           subcats?<VStack alignItems={'flex-start'} mt={10} maxH={'70vh'} overflowY={'auto'} className='subcats'>
             <Button
                 variant={'solid'}
-                colorScheme='teal'
+                colorScheme='red'
               >
                 SUB-CATEGORIES
               </Button>
@@ -94,7 +94,7 @@ export default function Sidebar() {
                     subcats.map((c)=>(
                         <Button
                 variant={'ghost'}
-                colorScheme={'teal'} marginTop={'10px'}
+                colorScheme={'purple'} marginTop={'10px'}
                 value={c}
                 _active={{
                   bg: '#FF4545',
@@ -102,7 +102,7 @@ export default function Sidebar() {
                   borderColor: '#bec3c9',
                 }}
               >
-                <Link to={`/${location.search.split("&", 1).join("&")}&subcat=${c}`} >{c.toUpperCase()}</Link>
+                <Link to={`/${location.search.split("&", 1).join("&")}&subcat=${c}`} style={{color:'wheat'}}>{c.toUpperCase()}</Link>
               </Button>
                     ))
                 }

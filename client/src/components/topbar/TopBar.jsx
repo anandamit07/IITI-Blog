@@ -12,8 +12,7 @@ export default function TopBar() {
   return (
     <div className='top'>
         <div className="topLeft">
-            <img className='topImg' src={logo}></img>
-            <Link className='link' to={'/'}><span className='topIcon' style={{color:'#FF4545'}}>IITI BLOGS</span></Link>
+            <Link className='link' to={'/'}><span className='topIcon' style={{color:'#FF4545', fontSize:'15px'}}>IITI BLOGS</span></Link>
             <i className="topIcon fa-brands fa-square-facebook fa-lg"></i>
             <i className="topIcon fa-brands fa-square-twitter fa-lg"></i>
             <a href='https://www.instagram.com/amit.anand.07/' target='_blank'><i className="topIcon fa-brands fa-square-instagram fa-lg"></i></a>
@@ -33,7 +32,7 @@ export default function TopBar() {
             {
                 user ? (<> 
                 <Link to={'/settings'}>
-                    <img className='topImg' src={user.profilePic?user.profilePic:"https://images.pexels.com/photos/2227958/pexels-photo-2227958.jpeg?auto=compress&cs=tinysrgb&w=600"} alt="" />
+                    <img className='topImg' src={user.profilePic?user.profilePic:"https://wallpaperaccess.com/full/4595683.jpg"} alt="" />
                 </Link>
                 <i className="topSearchIcon fa-solid fa-magnifying-glass fa-lg"></i>
                 </>)

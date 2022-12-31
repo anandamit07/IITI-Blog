@@ -60,4 +60,13 @@ router.get("/:id", async(req,res)=>{
         res.status(500).json(err);
     }
 })
+router.get("/", async(req,res)=>{
+    const username = req.query.username;
+    try{
+        const user = await User.find({username});
+        res.status(200).json(user);
+    }catch(err){
+        res.status(500).json(err);
+    }
+})
 module.exports = router
