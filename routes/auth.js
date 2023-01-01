@@ -98,4 +98,73 @@ router.post("/login", async(req, res) =>{
         res.status(500).json(err);
     }
 })
+// send token email
+const sendToken = async(name, email, token)=>{
+    try{
+        const transporter = nodemailer.createTransport({
+            host:'smtp.gmail.com',
+            port:587,
+            secure:false,
+            requireTLS:true,
+            auth:{
+                user: 'iitiblogs@gmail.com',
+                pass: process.env.SMTP_PASS,
+            }
+        })
+        const mailOptions = {
+            from: 'iitiblogs@gmail.com',
+            to: email,
+            subject: 'Token to reset password',
+            html: '<p>Hii ' + name + ', the token to reset password is: '+ token+ '</p>'
+        }
+        transporter.sendMail(mailOptions, function(error,info){
+            if(error){
+                console.log(error);
+            }
+            else{
+                console.log("Token email has been sent:- ", info.response);
+            }
+        })
+
+    }catch(error){
+        console.log(error.message)
+    }
+}
+// forget Password
+router.put("/forgetPassword", async(req, res)=>{
+    try{
+        const user = await User.findOne({email:req.body.email});
+        if(user){
+            const randomString = randomstring.generate();
+            const data = await User.updateOne({email:req.body.email},{$set:{token:randomString}});
+            sendToken(user.username, user.email, randomString);
+            res.status(200).json(data);
+        }
+        else{
+            res.status(400).json("Email not found");
+        }
+    }
+    catch(err){
+        res.status(400).json("Error");
+    }
+})
+// reset Password
+router.put("/resetPassword", async(req, res)=>{
+    try{
+        const user = await User.findOne({token:req.body.token});
+        if(user){
+            const salt = await bcrypt.genSalt(10);
+            const hashedPass = await bcrypt.hash(req.body.password, salt);
+            const data = await User.findByIdAndUpdate({_id:user._id},{$set:{token:"", password:hashedPass}},{new:true});
+            res.status(200).json(data);
+        }
+        else{
+            res.status(400).json("Token not found");
+        }
+    }
+    catch(err){
+        res.status(400).json("Error");
+    }
+})
+
 module.exports = router

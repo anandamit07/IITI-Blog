@@ -48,7 +48,7 @@ export default function Register() {
             placeholder='Enter your password'
             required
             onChange={e=>setPassword(e.target.value)} />
-            <Button variant={'teal'} className='registerButton'>Register</Button>
+            <Button type='submit' variant={'teal'} className='registerButton'>Register</Button>
         </form>
         <button className='registerLoginButton'><Link className='link' to={'/login'}> Login</Link></button>
       {error?<span style={{color:"red", marginTop:"10px"}}>Something went wrong <br/> Username should be unique <br/> E-mail should be unique</span>:<></>}
