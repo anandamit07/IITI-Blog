@@ -2,6 +2,7 @@ const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
+const randomstring = require("randomstring");
 const dotenv = require("dotenv");
 dotenv.config();
 //for send mail
