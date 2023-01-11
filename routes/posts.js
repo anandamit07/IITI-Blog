@@ -132,5 +132,20 @@ router.put("/like/:id", async(req, res) => {
     
 // })
 
+router.put("/changeAuthorVis/:id", async(req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if(post.username === req.body.username){
+            post.anonymous = !post.anonymous;
+            const updatedPost = await Post.findByIdAndUpdate(req.params.id, {$set:post},{new: true});
+            res.status(200).json(updatedPost);
+        }else{
+            res.status(401).json("You can update only your post!");
+        }
+    } catch (error) {
+        res.status(500).json(error);
+    }
+    
+})
 
 module.exports = router

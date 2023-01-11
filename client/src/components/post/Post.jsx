@@ -58,7 +58,7 @@ export default function Post({post}) {
               }
               {
                 post.subcategories.map((c)=>(
-                  <span className='postCat'>{c.charAt(0).toUpperCase() + c.slice(1)}</span>
+                  <span className='postCat'>{', '+c.charAt(0).toUpperCase() + c.slice(1)}</span>
                 ))
               }
       </Text>

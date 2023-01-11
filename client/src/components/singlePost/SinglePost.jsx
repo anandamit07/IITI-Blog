@@ -17,6 +17,7 @@ export default function SinglePost() {
     const {user} = useContext(Context);
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
+    const [anonymous, setAnonymous] = useState(false);
     const [liked, setLiked] = useState(false);
     const [seed, setSeed] = useState(false);
     const [usersLiked, setUsersLiked] = useState([]);
@@ -31,6 +32,7 @@ export default function SinglePost() {
             setTitle(res.data.title);
             setDesc(res.data.desc);
             setUsersLiked(res.data.liked);
+            setAnonymous(res.data.anonymous);
             if(user){
                 setLiked(res.data.liked.includes(user.username));
             }
@@ -40,7 +42,7 @@ export default function SinglePost() {
         }
 
         getPost();
-    },[path,liked]);
+    },[path,liked,anonymous]);
     const handleDelete = async() =>{
         await axios.delete("/api/posts/" + path,{data:
             {username:user.username},
@@ -87,6 +89,17 @@ export default function SinglePost() {
             
         }
     }
+    const changeAuthorVis = async () =>{
+        try{
+            await axios.put(`/api/posts/changeAuthorVis/${post._id}`,{
+                username:user.username,
+            })
+            setAnonymous(!anonymous);
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
   return (
     <div className="singlePost">
         <div className="singlePostWrapper">
@@ -108,7 +121,16 @@ export default function SinglePost() {
                 )
             }
             <div className="singlePostInfo">
-                <span className='singlePostAuthor'><img className='topImg' src={author.profilePic?author.profilePic:"https://wallpaperaccess.com/full/4595683.jpg"}/>Author: <Link to={`/?user=${post.username}`} className='link'><b>{post.username}</b></Link></span>
+                <span className='singlePostAuthor'>
+                    {post.anonymous?<><img className='topImg' src={"https://cdn.imgbin.com/16/0/17/imgbin-anonymous-icon-anonymous-pic-guy-fawkes-mask-nErhMg9HEan36rFkghNg6QCkh.jpg"}/>Author: <b>Anonymous</b></>:<><img className='topImg' src={author.profilePic?author.profilePic:"https://wallpaperaccess.com/full/4595683.jpg"}/>Author: <Link to={`/?user=${post.username}`} className='link'><b>{post.username}</b></Link></>
+                    }
+                    {
+                        post.username === user?.username &&
+(                        post.anonymous?
+                        <i class="fa-solid fa-eye" style={{cursor:'pointer', marginLeft:'5px'}} onClick={changeAuthorVis}></i>:<i class="fa-solid fa-eye-slash" style={{cursor:'pointer', marginLeft:'5px'}} onClick={changeAuthorVis}></i>)
+                    }
+                    
+                </span>
                 <span>{`Likes: ${usersLiked.length}`} <i className="fa-solid fa-heart" style={{color:'#FF4545'}}/></span>
                 <span className='singlePostDate'>{new Date(post.createdAt).toDateString().substring(4)}</span>
             </div>
